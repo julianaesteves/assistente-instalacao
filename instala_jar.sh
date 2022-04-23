@@ -16,11 +16,11 @@ java -jar $jar_onhome 1> /dev/null 2> /dev/stdout
 
 else
     echo ""
-    echo "$(tput setaf 10)[OnHome]: Inicializaçã cancelada."
+    echo "$(tput setaf 10)[OnHome]: Inicialização cancelada."
     sleep 1
     echo ""
 
-    echo "$(tput setaf 10)[OnHome]: Para outra tentativa de instalação inicie o programa novamente."
+    echo "$(tput setaf 10)[OnHome]: Para outra tentativa de instalação reinicie o programa."
     sleep 1
     echo ""
 
@@ -88,8 +88,8 @@ if [ "$(dpkg --get-selections | grep 'default-jre' | wc -l)" -eq "0" ];
                     echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) -- Inicializando instalação do sistema OnHome -- "
                     instalando_onhome
 else
-		echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) : Você ja tem o Java instalado por favor aguardo enquanto verificamos a versão"
-                    
+		echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) : Todos os requisitos estão de acordo, prosseguindo com a instalação..."
+                    instalando_onhome
                     
 fi
 
