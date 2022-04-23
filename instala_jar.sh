@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Variáveis
-jar_onhome='api-monitoramento-hardware-onhome-1.0-SNAPSHOT-jar-with-dependencies.jar'
-baixar_jar='https://github.com/matheusferreira079/jar-banco/raw/main/api-monitoramento-hardware-onhome-1.0-SNAPSHOT-jar-with-dependencies.jar'
+jar_onhome='onhome-api-monitoramento-Banco_Azure.jar'
+baixar_jar='https://github.com/matheusferreira079/jar-banco/raw/main/onhome-api-monitoramento-Banco_Azure.jar'
 
 # Função responsavel por iniciar a API
 iniciar_sistema() {
@@ -12,7 +12,6 @@ read confirm
 
 if [ \"$confirm\" == \"s\" ]; then
 echo "$(tput setaf 10)[OnHome]: Inicializando, por favor, aguarde..."
-## faz sentido dar permissao aqui ???  sudo chmod 777 $jar_onhome 
 java -jar $jar_onhome 1> /dev/null 2> /dev/stdout
 
 else
@@ -41,7 +40,6 @@ if [ "$( ls -l |  grep $jar_onhome | wc -l)" -eq "0" ]; then
 
     echo "$(tput setaf 10)[OnHome]: Baixando o programa OnHome..."
 
-## what the fuck does it means /dev/null 2> /dev/stdout
         wget $baixar_jar 1> /dev/null 2> /dev/stdout
 
         iniciar_sistema
