@@ -16,9 +16,9 @@ Responsável pela automação de instalação do java e do jar na máquina EC2
 ``wget <link copiado>``
 
   Dar permissão total ao arquivo
-``sudo chmod 777 instala_jar``
+``sudo chmod 777 instala_jar.sh``
 
   Executar o script shell
-``./instala_jar``
+``./instala_jar.sh``
 
   Pronto! Se tudo foi realizado da forma correta o jar será executado em sua máquina automaticamente.
