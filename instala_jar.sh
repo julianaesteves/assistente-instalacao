@@ -3,6 +3,8 @@
 # Variáveis
 jar_onhome='onhome-api-monitoramento-Banco_Azure.jar'
 baixar_jar='https://github.com/matheusferreira079/jar-banco/raw/main/onhome-api-monitoramento-Banco_Azure.jar'
+script_bd='https://github.com/sergioetrindade/downloadjar/raw/master/scriptBd.sql'
+
 
 # Função responsavel por iniciar a API
 iniciar_sistema() {
@@ -67,6 +69,103 @@ fi
 
 }
 
+
+ # Cria o container Docker
+
+criar_container() {
+
+	if [ "$(sudo docker ps -aqf 'name=ConteinerFade' | wc -l)" -eq "0" ]; then
+		echo ""
+		echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7)Finalizando instalação do docker..."
+		sudo docker run -d -p 3306:3306 --name ConteinerBD -e "MYSQL_ROOT_PASSWORD=urubu100" imagem_fade:1.0  1> /dev/null 2> /dev/stdout		
+	
+	fi
+
+     instalando_onhome
+}
+
+# Cria uma imagem mysql docker modificada com o banco inserido
+gerar_imagem_personalizada() { 
+
+	if [ "$( ls -l | grep 'scriptBd.sql' | wc -l )" -eq "0" ]; then
+		wget $script_bd 1> /dev/null 2> /dev/stdout
+
+	fi
+
+	if [ "$( ls -l | grep 'dockerfile' | wc -l )" -eq "0" ]; then
+echo "
+FROM mysql:5.7
+
+ENV MYSQL_DATABASE fadesolutions
+
+COPY scriptBd.sql /docker-entrypoint-initdb.d/
+" > dockerfile 
+
+	fi
+
+	if [ "$(sudo docker images | grep 'imagem_fade' | wc -l)" -eq "0" ]; then
+		sudo docker build -t imagem_fade:1.0 . 1> /dev/null 2> /dev/stdout
+
+	fi
+
+	criar_container
+
+}
+
+# Baixa a imagem SQL do docker
+instalar_sql_docker() { 
+
+	if [ "$(sudo docker images | grep 'mysql' | wc -l)" -eq "0" ]; then
+	echo ""
+	echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7) Criando imagem docker..."
+		sudo docker pull mysql:5.7 1> /dev/null 2> /dev/stdout
+		gerar_imagem_personalizada
+
+	else
+		gerar_imagem_personalizada
+
+	fi
+
+}
+
+# Função responsável por ativar o docker
+ligar_docker(){
+
+if [ "$(sudo service docker status | head -2 | tail -1 | awk '{print $4}' | sed 's/\;//g')" != "enabled" ]; 
+    then 
+		sudo systemctl enable docker
+
+	fi
+
+	if [ "$(sudo systemctl is-active docker)" != "active" ]; then
+		sudo systemctl start docker
+
+    fi
+		
+		instalar_sql_docker
+
+
+}
+
+# Função responsável pela instalação do docker
+instalar_docker() {
+
+	if [ "$(dpkg --get-selections | grep 'docker.io' | wc -l)" -eq "0" ]; then
+		echo ""
+		echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7) Realizando a instalação do Docker..."
+		sudo apt update -y  1> /dev/null 2> /dev/stdout 
+		sudo apt install docker.io -y 1> /dev/null 2> /dev/stdout
+		ligar_docker
+
+	else
+		ligar_docker
+	
+	fi
+}
+
+
+
+
 # Função responsável por verificar se o java está na máquina
 
 verificar_java() {
@@ -89,7 +188,8 @@ if [ "$(dpkg --get-selections | grep 'default-jre' | wc -l)" -eq "0" ];
                     instalando_onhome
 else
 		echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) : Todos os requisitos estão de acordo, prosseguindo com a instalação..."
-                    instalando_onhome
+         instalar_docker 
+                   
                     
 fi
 
