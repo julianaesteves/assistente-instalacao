@@ -3,7 +3,7 @@
 # Variáveis
 jar_onhome='onhome-api-monitoramento-Banco_Azure.jar'
 baixar_jar='https://github.com/matheusferreira079/jar-banco/raw/main/onhome-api-monitoramento-Banco_Azure.jar'
-script_bd='https://github.com/sergioetrindade/downloadjar/raw/master/scriptBd.sql'
+script_bd='https://github.com/julianaesteves/script-ec2/raw/main/docker-script-bd.sql'
 
 
 # Função responsavel por iniciar a API
@@ -77,7 +77,7 @@ criar_container() {
 	if [ "$(sudo docker ps -aqf 'name=ConteinerFade' | wc -l)" -eq "0" ]; then
 		echo ""
 		echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7)Finalizando instalação do docker..."
-		sudo docker run -d -p 3306:3306 --name ConteinerBD -e "MYSQL_ROOT_PASSWORD=urubu100" imagem_fade:1.0  1> /dev/null 2> /dev/stdout		
+		sudo docker run -d -p 3306:3306 --name ConteinerBD -e "MYSQL_ROOT_PASSWORD=urubu100" onhome:1.0  1> /dev/null 2> /dev/stdout		
 	
 	fi
 
@@ -87,7 +87,7 @@ criar_container() {
 # Cria uma imagem mysql docker modificada com o banco inserido
 gerar_imagem_personalizada() { 
 
-	if [ "$( ls -l | grep 'scriptBd.sql' | wc -l )" -eq "0" ]; then
+	if [ "$( ls -l | grep 'docker-script-bd.sql' | wc -l )" -eq "0" ]; then
 		wget $script_bd 1> /dev/null 2> /dev/stdout
 
 	fi
@@ -96,15 +96,15 @@ gerar_imagem_personalizada() {
 echo "
 FROM mysql:5.7
 
-ENV MYSQL_DATABASE fadesolutions
+ENV MYSQL_DATABASE onhome
 
-COPY scriptBd.sql /docker-entrypoint-initdb.d/
+COPY docker-script-bd.sql /docker-entrypoint-initdb.d/
 " > dockerfile 
 
 	fi
 
-	if [ "$(sudo docker images | grep 'imagem_fade' | wc -l)" -eq "0" ]; then
-		sudo docker build -t imagem_fade:1.0 . 1> /dev/null 2> /dev/stdout
+	if [ "$(sudo docker images | grep 'onhome' | wc -l)" -eq "0" ]; then
+		sudo docker build -t onhome:1.0 . 1> /dev/null 2> /dev/stdout
 
 	fi
 
