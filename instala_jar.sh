@@ -191,11 +191,11 @@ if [ "$(dpkg --get-selections | grep 'default-jre' | wc -l)" -eq "0" ];
 		echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) : Você não tem a versão do Java necessária no seu computador. Instalação necessária para execução do programa. "
 	
 					echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) Realizando instalação do Java(11.0.10 LTS)..."
-					sudo apt install default-jre ; apt install openjdk-11-jre-headless; -y
+					sudo apt install default-jre ; apt install openjdk-11-jre-headless; y
 					clear
 					echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) Instalado com sucesso!"
-                    echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) -- Inicializando instalação do sistema OnHome -- "
-                    instalando_onhome
+                    echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) -- Inicializando instalação do docker -- "
+                    instalar_docker
 else
 		echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) : Todos os requisitos estão de acordo, prosseguindo com a instalação..."
          instalar_docker 
