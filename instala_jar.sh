@@ -37,6 +37,16 @@ else
 
 # Função que instala o software da OnHome
 instalando_onhome() { 
+
+	if [ "$( ls -l | grep 'docker-script-bd.sql' | wc -l )" -eq "1" ]; then
+		rm docker-script-bd.sql
+
+	fi
+
+	if [ "$( ls -l | grep 'dockerfile' | wc -l )" -eq "1" ]; then
+		rm dockerfile
+
+	fi
     
 if [ "$( ls -l |  grep $jar_onhome | wc -l)" -eq "0" ]; then
 
