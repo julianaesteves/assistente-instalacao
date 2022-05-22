@@ -50,6 +50,9 @@ CREATE TABLE IF NOT EXISTS Usuario (
 	fkEspecialidade INT
 );
 
+INSERT INTO Usuario(nomeUsuario, emailUser, senhaUser) VALUES 
+('adminOnHome', 'admin@onhome.com', 'admin@admin');
+
 CREATE TABLE IF NOT EXISTS Permissao (
 	idPermissao INT PRIMARY KEY AUTO_INCREMENT,
 	cargo VARCHAR(45)
@@ -76,7 +79,6 @@ CREATE TABLE IF NOT EXISTS Computadores (
 	tamanhoRam DOUBLE,
 	fkUsuario INT
 );
-
 
 
 CREATE TABLE IF NOT EXISTS Monitoramento (
