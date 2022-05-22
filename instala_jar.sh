@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variáveis
-jar_onhome='onhome-api-monitoramento-Banco_Azure.jar'
+jar_onhome='onhome-api-servidor.jar'
 baixar_jar='https://github.com/matheusferreira079/jar-banco/raw/main/onhome-api-servidor.jar'
 script_bd='https://github.com/julianaesteves/script-ec2/raw/main/docker-script-bd.sql'
 
