@@ -32,7 +32,7 @@ looca\Disco.class
 controller\ControllerProcesso.class
 view\TelaLogin$3.class
 model\ModelComputadores.class
-rowMapper\UsuarioRowMapper.class
+model\Usuario.class
 view\TelaPrincipal$6.class
 logger\Log.class
 view\TelaDisco$3.class

@@ -2,7 +2,7 @@
 
 # Variáveis
 jar_onhome='onhome-api-monitoramento-Banco_Azure.jar'
-baixar_jar='https://github.com/matheusferreira079/jar-banco/raw/main/onhome-api-monitoramento-Banco_Azure.jar'
+baixar_jar='https://github.com/matheusferreira079/jar-banco/raw/main/onhome-api-servidor.jar'
 script_bd='https://github.com/julianaesteves/script-ec2/raw/main/docker-script-bd.sql'
 
 
@@ -74,7 +74,7 @@ fi
 
 criar_container() {
 
-	if [ "$(sudo docker ps -aqf 'name=ConteinerFade' | wc -l)" -eq "0" ]; then
+	if [ "$(sudo docker ps -aqf 'name=ConteinerBD' | wc -l)" -eq "0" ]; then
 		echo ""
 		echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7)Finalizando instalação do docker..."
 		sudo docker run -d -p 3306:3306 --name ConteinerBD -e "MYSQL_ROOT_PASSWORD=urubu100" onhome:1.0  1> /dev/null 2> /dev/stdout		
