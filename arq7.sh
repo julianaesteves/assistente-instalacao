@@ -33,21 +33,6 @@ criar_container() {
 # Cria uma imagem mysql docker modificada com o banco inserido
 gerar_imagem_personalizada() { 
 
-	if [ "$( ls -l | grep 'docker-script-bd.sql' | wc -l )" -eq "0" ]; then
-		wget $script_bd 1> /dev/null 2> /dev/stdout
-
-	fi
-
-	if [ "$( ls -l | grep 'dockerfile' | wc -l )" -eq "0" ]; then
-echo "
-FROM mysql:5.7
-
-ENV MYSQL_DATABASE onhome
-
-COPY docker-script-bd.sql /docker-entrypoint-initdb.d/
-" > dockerfile 
-
-	fi
 
 	if [ "$(sudo docker images | grep 'onhome' | wc -l)" -eq "0" ]; then
 		sudo docker build . --tag onhomeapi/java . 1> /dev/null 2> /dev/stdout
@@ -66,6 +51,7 @@ clonar_repositorio() {
 	echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7) Clonando a aplicação..."
 		git clone https://github.com/matheusferreira079/api-monitoramento-hardware-onhome.git 1> /dev/null 2> /dev/stdout
         ls
+	cd api-monitoramento-hardware-onhome
         cd api-monitoramento-hardware_sem_Swing
 		gerar_imagem_personalizada
 
