@@ -21,7 +21,7 @@ criar_container() {
 	if [ "$(sudo docker ps -aqf 'name=OnHome' | wc -l)" -eq "0" ]; then
 		echo ""
 		echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7)Criando o container..."
-		sudo docker run -d -p 8080:8080 --name OnHome onhomeapi/java  1> /dev/null 2> /dev/stdout
+		sudo docker run -d -p 8080:8080 --name OnHome onhomeapi/java
         echo "Executando o app"
         
 	
@@ -34,10 +34,10 @@ criar_container() {
 gerar_imagem_personalizada() { 
 
 
-	if [ "$(sudo docker images | grep 'onhome' | wc -l)" -eq "0" ]; then
-		sudo docker build . --tag onhomeapi/java . 1> /dev/null 2> /dev/stdout
+	#if [ "$(sudo docker images | grep 'onhome' | wc -l)" -eq "0" ]; then
+		sudo docker build . --tag onhomeapi/java
 
-	fi
+	#fi
 
 	criar_container
 
