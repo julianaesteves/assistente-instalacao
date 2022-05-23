@@ -1,5 +1,4 @@
 USE onhome;
-USE onhome;
 
 CREATE TABLE IF NOT EXISTS Licenca (
 	idLicenca INT PRIMARY KEY AUTO_INCREMENT,
