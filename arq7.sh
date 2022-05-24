@@ -3,7 +3,6 @@
 # Variáveis
 jar_onhome='onhome-api-servidor.jar'
 baixar_jar='https://github.com/matheusferreira079/jar-banco/raw/main/onhome-api-servidor.jar'
-script_bd='https://github.com/julianaesteves/script-ec2/raw/main/docker-script-bd.sql'
 
 instalando_onhome() {
     echo "entrando no terminal do container"
@@ -33,10 +32,12 @@ criar_container() {
 # Cria uma imagem mysql docker modificada com o banco inserido
 gerar_imagem_personalizada() { 
 
-	if [ "$(sudo docker images | grep 'onhome' | wc -l)" -eq "0" ]; then
-		sudo docker build . --tag onhomeapi/java . 1> /dev/null 2> /dev/stdout
+	#if [ "$(sudo docker images | grep 'onhome' | wc -l)" -eq "0" ]; then
+		sudo docker build . --tag onhomeapi/java
 
-	fi
+        sudo docker images
+
+	#fi
 
 	criar_container
 
@@ -48,10 +49,12 @@ clonar_repositorio() {
 	if [ "$(ls | grep 'api-monitoramento' | wc -l)" -eq "0" ]; then
 	echo ""
 	echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7) Clonando a aplicação..."
-		git clone https://github.com/matheusferreira079/api-monitoramento-hardware-onhome.git 1> /dev/null 2> /dev/stdout
+		git clone https://github.com/matheusferreira079/api-monitoramento-hardware-onhome.git
         ls
 	cd api-monitoramento-hardware-onhome
+    pwd
         cd api-monitoramento-hardware_sem_Swing
+        pwd
 		gerar_imagem_personalizada
 
 	else
