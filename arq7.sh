@@ -1,12 +1,11 @@
 #!/bin/bash
 
 # Variáveis
-jar_onhome='onhome-api-servidor.jar'
 baixar_jar='https://github.com/matheusferreira079/jar-banco/raw/main/onhome-api-servidor.jar'
 
 instalando_onhome() {
-    echo "entrando no terminal do container"
-    sudo docker exec -it OnHome bash "cd app ; java -jar app.jar"
+    echo "Iniciando a aplicação OnHome"
+    sudo docker exec -w /app OnHome bash java -jar app.jar
     # pwd
     # echo "executando o app"
     # java -jar app.jar
