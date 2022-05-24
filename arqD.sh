@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Variáveis
-jar_onhome='onhome-api-docker-server.jar'
-baixar_jar='https://github.com/matheusferreira079/ac3-docker/raw/main/Arquitetura_B/onhome-api-docker-server.jar'
+jar_onhome='onhome-api-monitoramento-Gui.jar'
+baixar_jar='https://github.com/matheusferreira079/ac3-docker/raw/main/Arquitetura_D/onhome-api-monitoramento-Gui.jar'
 script_bd='https://github.com/julianaesteves/script-ec2/raw/main/docker-script-bd.sql'
 
 
@@ -22,7 +22,7 @@ echo "$(tput setaf 10)[OnHome]: Inicializando, por favor, aguarde..."
 
 sleep 1
 
-java -jar onhome-api-docker-server.jar
+java -jar onhome-api-monitoramento-Gui.jar
 
 else
     echo ""
