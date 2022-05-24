@@ -38,101 +38,52 @@ else
 # Função que instala o software da OnHome
 instalando_onhome() { 
 
-	if [ "$( ls -l | grep 'docker-script-bd.sql' | wc -l )" -eq "1" ]; then
-		rm docker-script-bd.sql
-
-	fi
-
-	if [ "$( ls -l | grep 'dockerfile' | wc -l )" -eq "1" ]; then
-		rm dockerfile
-
-	fi
-    
-if [ "$( ls -l |  grep $jar_onhome | wc -l)" -eq "0" ]; then
-
-    echo "$(tput setaf 10)[OnHome]: Baixando o programa OnHome..."
-
-        wget $baixar_jar 1> /dev/null 2> /dev/stdout
-
-        iniciar_sistema
+ echo "Iniciando a aplicação OnHome"
+    pwd
+    sudo docker exec -w /app onhomeJava java -jar application.jar
 
 
-else
-
-    sleep 2
-        
-    iniciar_sistema
-  
-
-    if [ $? -eq 1 ]; then 
-
-    echo "$(tput setaf 10)[OnHome]: Erro ao baixar o programa. "
-
-    sleep 1 
-
-    exit 0 
-
-    fi
-
-
-fi    
 
 }
 
 
  # Cria o container Docker
 
-criar_container() {
+gerar_imagem_container_java() {
 
-	if [ "$(sudo docker ps -aqf 'name=ConteinerBD' | wc -l)" -eq "0" ]; then
-		echo ""
-		echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7)Finalizando instalação do docker..."
-		sudo docker run -d -p 3306:3306 --name ConteinerBD -e "MYSQL_ROOT_PASSWORD=2ads@grupo10" onhome:1.0  1> /dev/null 2> /dev/stdout		
-	
-	fi
+	cd ..
+	cd Arquitetura_B
+	sudo docker build . --tag onhome-application
+	sudo docker run -d -p 8080:8080 --name onhomeJava onhome-application
 
      instalando_onhome
 }
 
 # Cria uma imagem mysql docker modificada com o banco inserido
-gerar_imagem_personalizada() { 
+gerar_imagem_container_sql() { 
 
-	if [ "$( ls -l | grep 'docker-script-bd.sql' | wc -l )" -eq "0" ]; then
-		wget $script_bd 1> /dev/null 2> /dev/stdout
+	sudo docker build . --tag onhome-mysql
+	sudo docker run -d -p 3306:3306 onhome-mysql
 
-	fi
-
-	if [ "$( ls -l | grep 'dockerfile' | wc -l )" -eq "0" ]; then
-echo "
-FROM mysql:5.7
-
-ENV MYSQL_DATABASE onhome
-
-COPY docker-script-bd.sql /docker-entrypoint-initdb.d/
-" > dockerfile 
-
-	fi
-
-	if [ "$(sudo docker images | grep 'onhome' | wc -l)" -eq "0" ]; then
-		sudo docker build -t onhome:1.0 . 1> /dev/null 2> /dev/stdout
-
-	fi
-
-	criar_container
+	gerar_imagem_container_java
 
 }
 
 # Baixa a imagem SQL do docker
-instalar_sql_docker() { 
+clonar_repositorio() { 
 
-	if [ "$(sudo docker images | grep 'mysql' | wc -l)" -eq "0" ]; then
+	if [ "$(ls | grep 'ac3-docker' | wc -l)" -eq "0" ]; then
 	echo ""
-	echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7) Criando imagem docker..."
-		sudo docker pull mysql:5.7 1> /dev/null 2> /dev/stdout
-		gerar_imagem_personalizada
+	echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7) Clonando a aplicação..."
+		git clone https://github.com/matheusferreira079/ac3-docker.git
+        ls
+		cd ac3-docker
+		cd mysql
+		pwd
+		gerar_imagem_container_sql
 
 	else
-		gerar_imagem_personalizada
+		gerar_imagem_container_sql
 
 	fi
 
@@ -152,10 +103,10 @@ if [ "$(sudo service docker status | head -2 | tail -1 | awk '{print $4}' | sed 
 
     fi
 		
-		instalar_sql_docker
-
+		clonar_repositorio
 
 }
+
 
 # Função responsável pela instalação do docker
 instalar_docker() {
