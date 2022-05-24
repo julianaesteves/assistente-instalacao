@@ -7,8 +7,7 @@ instalando_onhome() {
     echo "Iniciando a aplicação OnHome"
     pwd
     sudo docker exec -w /app OnHome java -jar app.jar
-    # echo "executando o app"
-    # java -jar app.jar
+   
 
 }
 
@@ -28,7 +27,7 @@ criar_container() {
      instalando_onhome
 }
 
-# Cria uma imagem mysql docker modificada com o banco inserido
+# Cria uma imagem docker modificada
 gerar_imagem_personalizada() { 
 
 	#if [ "$(sudo docker images | grep 'onhome' | wc -l)" -eq "0" ]; then
@@ -42,7 +41,7 @@ gerar_imagem_personalizada() {
 
 }
 
-# Baixa a imagem SQL do docker
+# Clona o repositório da API do github
 clonar_repositorio() { 
 
 	if [ "$(ls | grep 'api-monitoramento' | wc -l)" -eq "0" ]; then
