@@ -21,7 +21,7 @@ criar_container() {
 	if [ "$(sudo docker ps -aqf 'name=OnHome' | wc -l)" -eq "0" ]; then
 		echo ""
 		echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7)Criando o container..."
-		sudo docker run -d -p 8080:8080 --name OnHome onhomeapi/java  1> /dev/null 2> /dev/stdout
+		sudo docker run -d -p 8080:8080 --name OnHome onhomeapi/java
         echo "Executando o app"
         
 	
@@ -50,6 +50,7 @@ clonar_repositorio() {
 	echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7) Clonando a aplicação..."
 		git clone https://github.com/matheusferreira079/api-monitoramento-hardware-onhome.git 1> /dev/null 2> /dev/stdout
         ls
+	cd api-monitoramento-hardware-onhome
         cd api-monitoramento-hardware_sem_Swing
 		gerar_imagem_personalizada
 
@@ -75,7 +76,6 @@ if [ "$(sudo service docker status | head -2 | tail -1 | awk '{print $4}' | sed 
     fi
 		
 		clonar_repositorio
-
 
 }
 
