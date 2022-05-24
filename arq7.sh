@@ -5,7 +5,7 @@ baixar_jar='https://github.com/matheusferreira079/jar-banco/raw/main/onhome-api-
 
 instalando_onhome() {
     echo "Iniciando a aplicação OnHome"
-    sudo docker exec -w /app OnHome bash java -jar app.jar
+    sudo docker exec -w /app OnHome java -jar app.jar
     # pwd
     # echo "executando o app"
     # java -jar app.jar
