@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Variáveis
-jar_onhome='onhome-api-servidor.jar'
-baixar_jar='https://github.com/matheusferreira079/jar-banco/raw/main/onhome-api-servidor.jar'
+jar_onhome='onhome-api-docker-server.jar'
+baixar_jar='https://github.com/matheusferreira079/ac3-docker/raw/main/Arquitetura_B/onhome-api-docker-server.jar'
 script_bd='https://github.com/julianaesteves/script-ec2/raw/main/docker-script-bd.sql'
 
 
