@@ -13,9 +13,16 @@ echo "$(tput setaf 10)[OnHome]: Sistema pronto. Deseja iniciar? s/n"
 read confirm
 
 if [ \"$confirm\" == \"s\" ]; then
-echo "$(tput setaf 10)[OnHome]: Inicializando, por favor, aguarde..."
+
 ls
-java -jar $jar_onhome
+
+sleep 1
+
+echo "$(tput setaf 10)[OnHome]: Inicializando, por favor, aguarde..."
+
+sleep 1
+
+java -jar onhome-api-docker-server.jar
 
 else
     echo ""
