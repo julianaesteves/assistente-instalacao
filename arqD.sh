@@ -14,7 +14,8 @@ read confirm
 
 if [ \"$confirm\" == \"s\" ]; then
 echo "$(tput setaf 10)[OnHome]: Inicializando, por favor, aguarde..."
-java -jar $jar_onhome 1> /dev/null 2> /dev/stdout
+ls
+java -jar $jar_onhome
 
 else
     echo ""
