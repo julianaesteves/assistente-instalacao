@@ -109,12 +109,6 @@ instalar_docker() {
 # Função responsável por verificar se o java está na máquina
 
 verificar_java() {
-
-echo  "$(tput setaf 4) ___        _   _
- / _ \ _ __ | | | | ___  _ __ ___   ___
-| | | | '_ \| |_| |/ _ \| '_ ` _ \ / _ \
-| |_| | | | |  _  | (_) | | | | | |  __/
- \___/|_| |_|_| |_|\___/|_| |_| |_|\___|"
  echo "$(tput setaf 4)Seja bem-vindo(a) ao assistente de instalação da OnhHome!"
  echo "==============================================================================="
 echo  "$(tput setaf 4)[Onhome]:$(tput setaf 7) Estamos realizando uma verificação de requisitos obrigatórios para o funcionamento correto do sistema, um momento..."
