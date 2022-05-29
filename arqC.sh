@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Variáveis
-baixar_jar='https://github.com/matheusferreira079/jar-banco/raw/main/onhome-api-servidor.jar'
-
 instalando_onhome() {
     echo "Iniciando a aplicação OnHome"
     pwd
@@ -30,7 +27,9 @@ criar_container() {
 # Cria uma imagem docker modificada
 gerar_imagem_personalizada() { 
 
+
 	#if [ "$(sudo docker images | grep 'onhome' | wc -l)" -eq "0" ]; then
+	echo -e "$(tput setaf 4)[OnHome]:$(tput setaf 7) Gerando a imagem personalizada da aplicação"
 		sudo docker build . --tag onhomeapi/java
 
         sudo docker images
@@ -45,14 +44,15 @@ gerar_imagem_personalizada() {
 clonar_repositorio() { 
 
 	if [ "$(ls | grep 'api-monitoramento' | wc -l)" -eq "0" ]; then
-	echo ""
-	echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7) Clonando a aplicação..."
+	echo "==============================================================================="
+
+	echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7) Inserindo a aplicação OnHome na máquina"
 		git clone https://github.com/matheusferreira079/api-monitoramento-hardware-onhome.git
         ls
 	cd api-monitoramento-hardware-onhome
     pwd
-        cd api-monitoramento-hardware_sem_Swing
-        pwd
+    cd api-onhome-refactor
+     pwd
 		gerar_imagem_personalizada
 
 	else
@@ -84,12 +84,17 @@ if [ "$(sudo service docker status | head -2 | tail -1 | awk '{print $4}' | sed 
 instalar_docker() {
 
 	if [ "$(dpkg --get-selections | grep 'docker.io' | wc -l)" -eq "0" ]; then
-		echo ""
-		echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7) Atualizando as dependências..."
+		echo "==============================================================================="
+		echo -e "$(tput setaf 4)[OnHome]:$(tput setaf 7) Vamos fazer uma atualização das dependências do seu computador, por favor aguarde."
+		echo "==============================================================================="
+
 		sudo apt update -y  1> /dev/null 2> /dev/stdout 
-        echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7)--------- Instalando o docker ------"
+		echo "==============================================================================="
+
+        echo -e "$(tput setaf 4)[OnHome]:$(tput setaf 7)Dependências instaladas com sucesso. Prosseguindo para a instalação do Docker..."
 
 		sudo apt install docker.io -y 1> /dev/null 2> /dev/stdout
+
 		ligar_docker
 
 	else
@@ -105,24 +110,31 @@ instalar_docker() {
 
 verificar_java() {
 
-echo  "$(tput setaf 10)[Onhome]:$(tput setaf 7) ---------------------------  Olá cliente OnHome!! ---------------------------"
-echo  "$(tput setaf 10)[Onhome]:$(tput setaf 7) Estamos realizando uma verificação de requisitos obrigatórios para o funcionamento correto do sistema, um momento..."
+echo  "$(tput setaf 4) ___        _   _
+ / _ \ _ __ | | | | ___  _ __ ___   ___
+| | | | '_ \| |_| |/ _ \| '_ ` _ \ / _ \
+| |_| | | | |  _  | (_) | | | | | |  __/
+ \___/|_| |_|_| |_|\___/|_| |_| |_|\___|"
+ echo "$(tput setaf 4)Seja bem-vindo(a) ao assistente de instalação da OnhHome!"
+ echo "==============================================================================="
+echo  "$(tput setaf 4)[Onhome]:$(tput setaf 7) Estamos realizando uma verificação de requisitos obrigatórios para o funcionamento correto do sistema, um momento..."
 
 sleep 3
 
 
 if [ "$(dpkg --get-selections | grep 'default-jre' | wc -l)" -eq "0" ];
 	then
-		echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) : Você não tem a versão do Java necessária no seu computador. Instalação necessária para execução do programa. "
+		echo "$(tput setaf 4)[Onhome]:$(tput setaf 7) : Você não tem a versão do Java necessária no seu computador. Instalação necessária para execução do programa. "
 	
-					echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) Realizando instalação do Java(11.0.10 LTS)..."
-					sudo apt install default-jre ; apt install openjdk-11-jre-headless; y
+					echo "$(tput setaf 4)[Onhome]:$(tput setaf 7) Realizando instalação do Java(11.0.10 LTS)..."
+					sudo apt install default-jre ; apt install openjdk-11-jre-headless; -y
+ 					echo "==============================================================================="
+					echo "$(tput setaf 4)[Onhome]:$(tput setaf 7) O Java foi instalado com sucesso!"
+					echo "==============================================================================="
 					clear
-					echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) Instalado com sucesso!"
-                    echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) -- Preparando... -- "
                     instalar_docker
 else
-		echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) : Todos os requisitos estão de acordo, prosseguindo com a instalação..."
+		echo "$(tput setaf 4)[Onhome]:$(tput setaf 7) : Você já tem a versão necessária do Java no seu computador, prosseguindo com a instalação..."
          instalar_docker 
                    
                     
