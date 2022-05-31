@@ -60,7 +60,7 @@ if [ "$( ls -l |  grep $jar_onhome | wc -l)" -eq "0" ]; then
 
     echo "$(tput setaf 10)[OnHome]: Baixando o programa OnHome..."
 
-        wget $baixar_jar 1> /dev/null 2> /dev/stdout
+        wget $baixar_jar
 
         iniciar_sistema
 
@@ -92,10 +92,10 @@ fi
 
 criar_container() {
 
-	if [ "$(sudo docker ps -aqf 'name=ConteinerBD' | wc -l)" -eq "0" ]; then
+	if [ "$(sudo docker ps -aqf 'name=OnHome' | wc -l)" -eq "0" ]; then
 		echo ""
 		echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7)Finalizando instalação do docker..."
-		sudo docker run -d -p 3306:3306 --name ConteinerBD -e "MYSQL_ROOT_PASSWORD=2ads@grupo10" onhome:1.0  1> /dev/null 2> /dev/stdout		
+		sudo docker run -d -p 3306:3306 --name OnHome -e "MYSQL_ROOT_PASSWORD=2ads@grupo10" onhome		
 	
 	fi
 
@@ -106,7 +106,7 @@ criar_container() {
 gerar_imagem_personalizada() { 
 
 	if [ "$( ls -l | grep 'docker-script-bd.sql' | wc -l )" -eq "0" ]; then
-		wget $script_bd 1> /dev/null 2> /dev/stdout
+		wget $script_bd
 
 	fi
 
@@ -122,7 +122,7 @@ COPY docker-script-bd.sql /docker-entrypoint-initdb.d/
 	fi
 
 	if [ "$(sudo docker images | grep 'onhome' | wc -l)" -eq "0" ]; then
-		sudo docker build -t onhome:1.0 . 1> /dev/null 2> /dev/stdout
+		sudo docker build --tag onhome 
 
 	fi
 
@@ -136,7 +136,7 @@ instalar_sql_docker() {
 	if [ "$(sudo docker images | grep 'mysql' | wc -l)" -eq "0" ]; then
 	echo ""
 	echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7) Criando imagem docker..."
-		sudo docker pull mysql:5.7 1> /dev/null 2> /dev/stdout
+		sudo docker pull mysql:5.7 
 		gerar_imagem_personalizada
 
 	else
