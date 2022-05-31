@@ -122,7 +122,7 @@ COPY docker-script-bd.sql /docker-entrypoint-initdb.d/
 	fi
 
 	if [ "$(sudo docker images | grep 'onhome' | wc -l)" -eq "0" ]; then
-		sudo docker build --tag onhome 
+		sudo docker build . --tag onhome-mysql
 
 	fi
 
