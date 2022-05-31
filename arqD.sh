@@ -95,7 +95,7 @@ criar_container() {
 	if [ "$(sudo docker ps -aqf 'name=OnHome' | wc -l)" -eq "0" ]; then
 		echo ""
 		echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7)Finalizando instalação do docker..."
-		sudo docker run -d -p 3306:3306 --name OnHome -e "MYSQL_ROOT_PASSWORD=2ads@grupo10" onhome		
+		sudo docker run -d -p 3306:3306 --name OnHome -e "MYSQL_ROOT_PASSWORD=2ads@grupo10" onhome-mysql
 	
 	fi
 
