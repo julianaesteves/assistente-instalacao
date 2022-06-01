@@ -8,8 +8,9 @@ script_bd='https://github.com/julianaesteves/script-ec2/raw/main/docker-script-b
 
 # Função responsavel por iniciar a API
 iniciar_sistema() {
-
-echo "$(tput setaf 10)[OnHome]: Sistema pronto. Deseja iniciar? s/n"
+echo "==============================================================================="
+echo "$(tput setaf 10)[OnHome]: O sistema está pronto para ser executado. Por favor, confirme a inicialização: deseja começar? s/n"
+echo "==============================================================================="
 read confirm
 
 if [ \"$confirm\" == \"s\" ]; then
@@ -18,7 +19,7 @@ ls
 
 sleep 1
 
-echo "$(tput setaf 10)[OnHome]: Inicializando, por favor, aguarde..."
+echo "$(tput setaf 10)[OnHome]: Ok, o programa abrirá em instantes! :)"
 
 sleep 1
 
@@ -33,9 +34,9 @@ else
     echo "$(tput setaf 10)[OnHome]: Para outra tentativa de instalação reinicie o programa."
     sleep 1
     echo ""
-
+	echo "==============================================================================="
     echo "$(tput setaf 10)[OnHome]: Encerrando instalação..."
-
+	echo "==============================================================================="
     exit 0
 
     fi
@@ -57,9 +58,9 @@ instalando_onhome() {
 	fi
     
 if [ "$( ls -l |  grep $jar_onhome | wc -l)" -eq "0" ]; then
-
+	echo "==============================================================================="
     echo "$(tput setaf 10)[OnHome]: Baixando o programa OnHome..."
-
+	echo "==============================================================================="
         wget $baixar_jar
 
         iniciar_sistema
@@ -74,7 +75,9 @@ else
 
     if [ $? -eq 1 ]; then 
 
-    echo "$(tput setaf 10)[OnHome]: Erro ao baixar o programa. "
+	echo "==============================================================================="
+    echo "$(tput setaf 4)[OnHome]: Erro ao baixar o programa. Por favor, tente novamente! "
+	echo "==============================================================================="
 
     sleep 1 
 
@@ -93,8 +96,9 @@ fi
 criar_container() {
 
 	if [ "$(sudo docker ps -aqf 'name=OnHome' | wc -l)" -eq "0" ]; then
-		echo ""
-		echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7)Finalizando instalação do docker..."
+		echo "==============================================================================="
+		echo -e "$(tput setaf 4)[OnHome]:$(tput setaf 7)Executando o docker com a imagem da aplicação OnHome"
+		echo "==============================================================================="
 		sudo docker run -d -p 3306:3306 --name OnHome -e "MYSQL_ROOT_PASSWORD=2ads@grupo10" onhome-mysql
 	
 	fi
@@ -105,7 +109,12 @@ criar_container() {
 # Cria uma imagem mysql docker modificada com o banco inserido
 gerar_imagem_personalizada() { 
 
+
+
 	if [ "$( ls -l | grep 'docker-script-bd.sql' | wc -l )" -eq "0" ]; then
+		echo "==============================================================================="
+		echo "$(tput setaf 4)[OnHome]:$(tput setaf 7) Realizando o download do script SQL do banco de dados local"
+		echo "==============================================================================="
 		wget $script_bd
 
 	fi
@@ -122,6 +131,9 @@ COPY docker-script-bd.sql /docker-entrypoint-initdb.d/
 	fi
 
 	if [ "$(sudo docker images | grep 'onhome' | wc -l)" -eq "0" ]; then
+		echo "==============================================================================="
+		echo "$(tput setaf 4)[OnHome]:$(tput setaf 7) Gerando imagem personalizada com base nos dados da Dockerfile"
+		echo "==============================================================================="
 		sudo docker build . --tag onhome-mysql
 
 	fi
@@ -134,8 +146,9 @@ COPY docker-script-bd.sql /docker-entrypoint-initdb.d/
 instalar_sql_docker() { 
 
 	if [ "$(sudo docker images | grep 'mysql' | wc -l)" -eq "0" ]; then
-	echo ""
-	echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7) Criando imagem docker..."
+	echo "==============================================================================="
+	echo -e "$(tput setaf 4)[OnHome]:$(tput setaf 7) Baixando a imagem docker do MySQL"
+	echo "==============================================================================="
 		sudo docker pull mysql:5.7 
 		gerar_imagem_personalizada
 
@@ -167,11 +180,17 @@ if [ "$(sudo service docker status | head -2 | tail -1 | awk '{print $4}' | sed 
 
 # Função responsável pela instalação do docker
 instalar_docker() {
+		echo "==============================================================================="
+		echo -e "$(tput setaf 4)[OnHome]:$(tput setaf 7) Vamos fazer uma atualização das dependências do seu computador, por favor aguarde."
+		echo "==============================================================================="
+
 
 	if [ "$(dpkg --get-selections | grep 'docker.io' | wc -l)" -eq "0" ]; then
-		echo ""
-		echo -e "$(tput setaf 10)[OnHome]:$(tput setaf 7) Realizando a instalação do Docker..."
+		
 		sudo apt update -y  1> /dev/null 2> /dev/stdout 
+		echo "==============================================================================="
+
+        echo -e "$(tput setaf 4)[OnHome]:$(tput setaf 7)Dependências instaladas com sucesso. Prosseguindo para a instalação do Docker..."
 		sudo apt install docker.io -y 1> /dev/null 2> /dev/stdout
 		ligar_docker
 
@@ -188,24 +207,27 @@ instalar_docker() {
 
 verificar_java() {
 
-echo  "$(tput setaf 10)[Onhome]:$(tput setaf 7) ---------------------------  Olá cliente OnHome!! ---------------------------"
-echo  "$(tput setaf 10)[Onhome]:$(tput setaf 7) Estamos realizando uma verificação de requisitos obrigatórios para o funcionamento correto do sistema, um momento..."
+	echo "$(tput setaf 4)Seja bem-vindo(a) ao assistente de instalação da OnHome!"
+	echo "==============================================================================="
+	echo  "$(tput setaf 4)[Onhome]:$(tput setaf 7) Estamos realizando uma verificação de requisitos obrigatórios para o funcionamento correto do sistema, um momento..."
+
 
 sleep 3
 
 
 if [ "$(dpkg --get-selections | grep 'default-jre' | wc -l)" -eq "0" ];
 	then
-		echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) : Você não tem a versão do Java necessária no seu computador. Instalação necessária para execução do programa. "
+		echo "$(tput setaf 4)[Onhome]:$(tput setaf 7) : Você não tem a versão do Java necessária no seu computador. Instalação necessária para execução do programa. "
 	
-					echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) Realizando instalação do Java(11.0.10 LTS)..."
+					echo "$(tput setaf 4)[Onhome]:$(tput setaf 7) Realizando instalação do Java(11.0.10 LTS)..."
 					sudo apt install default-jre ; apt install openjdk-11-jre-headless; y
 					clear
-					echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) Instalado com sucesso!"
-                    echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) -- Inicializando instalação do docker -- "
+					echo "==============================================================================="
+					echo "$(tput setaf 4)[Onhome]:$(tput setaf 7) O Java foi instalado com sucesso!"
+					echo "==============================================================================="
                     instalar_docker
 else
-		echo "$(tput setaf 10)[Onhome]:$(tput setaf 7) : Todos os requisitos estão de acordo, prosseguindo com a instalação..."
+		echo "$(tput setaf 4)[Onhome]:$(tput setaf 7) : Você já tem a versão necessária do Java no seu computador, prosseguindo com a instalação..."
          instalar_docker 
                    
                     
