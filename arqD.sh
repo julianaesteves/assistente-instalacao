@@ -4,7 +4,7 @@
 jar_onhome='api-onhome-version-final.jar'
 baixar_jar='https://github.com/matheusferreira079/jar-banco/raw/main/api-onhome-version-final.jar'
 script_bd='https://github.com/julianaesteves/script-ec2/raw/main/docker-script-bd.sql'
-purple=$(tput setaf 5)
+purple=$(tput setaf 125)
 white=$(tput setaf 7)
 red=$(tput setaf 1)
 green=$(tput setaf 2)
@@ -25,7 +25,7 @@ ls
 
 sleep 1
 
-echo "$purple[OnHome]:$white Ok, o programa abrirá em instantes! :)"
+echo "$purple $(tput bold)[OnHome]:$white  Ok, o programa abrirá em instantes! :)"
 
 sleep 1
 
@@ -37,7 +37,7 @@ else
     sleep 1
     echo ""
 
-    echo "$purple[OnHome]:$white Para outra tentativa de instalação reinicie o programa."
+    echo "$purple[OnHome]:$red Para outra tentativa de instalação reinicie o programa."
     sleep 1
     echo ""
 echo "$red============================================================================================================================"
