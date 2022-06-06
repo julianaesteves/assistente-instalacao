@@ -216,7 +216,7 @@ verificar_java() {
 	echo ""
 	echo ""
 	echo ""
-	echo "$purple                                             BEM VINDO AO ASSISTENTE DE INSTALAÇÃO DA ONHOME!"
+	echo "$purple                                   $(tput bold)     BEM VINDO AO ASSISTENTE DE INSTALAÇÃO DA ONHOME!"
 	echo ""
 	echo ""
 	echo ""
