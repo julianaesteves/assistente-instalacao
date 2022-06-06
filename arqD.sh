@@ -14,7 +14,7 @@ cyan=$(tput setaf 6)
 # Função responsavel por iniciar a API
 iniciar_sistema() {
 echo "$cyan============================================================================================================================"
-echo "$purple[OnHome]$white: O sistema está pronto para ser executado. Deseja iniciar? Confirme com: s ou n"
+echo "$purple[OnHome]$white: O sistema está pronto para ser executado."
 echo "$purple[OnHome]$white: Deseja iniciar? Confirme com: $green s $white ou $red n"
 echo "$cyan============================================================================================================================"
 read confirm
@@ -25,7 +25,7 @@ ls
 
 sleep 1
 
-echo "$purple $(tput bold)[OnHome]:$white  Ok, o programa abrirá em instantes! :)"
+echo "$purple[OnHome]:$white  Ok, o programa abrirá em instantes! :)"
 
 sleep 1
 
@@ -41,7 +41,7 @@ else
     sleep 1
     echo ""
 echo "$red============================================================================================================================"
-    echo "$purple[OnHome]:$white Encerrando instalação..."
+    echo "$purple[OnHome]:$red Encerrando instalação..."
 echo "$red============================================================================================================================"
     exit 0
 
@@ -216,7 +216,7 @@ verificar_java() {
 	echo ""
 	echo ""
 	echo ""
-	echo "$purple                                   $(tput bold)     BEM VINDO AO ASSISTENTE DE INSTALAÇÃO DA ONHOME!"
+	echo "$purple                                    BEM VINDO AO ASSISTENTE DE INSTALAÇÃO DA ONHOME!"
 	echo ""
 	echo ""
 	echo ""
