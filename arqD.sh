@@ -4,13 +4,15 @@
 jar_onhome='api-onhome-version-final.jar'
 baixar_jar='https://github.com/matheusferreira079/jar-banco/raw/main/api-onhome-version-final.jar'
 script_bd='https://github.com/julianaesteves/script-ec2/raw/main/docker-script-bd.sql'
-purple=$(tput setaf 125)
+purple=$(tput setaf 5)
+white=$(tput setaf 7)
+red=$(tput setaf 1)
 
 
 # Função responsavel por iniciar a API
 iniciar_sistema() {
 echo "=============================================================================================================================="
-echo "$purple[OnHome]$purple: O sistema está pronto para ser executado. Deseja iniciar? Confirme com: s OU n"
+echo "$purple[OnHome]$white: O sistema está pronto para ser executado. Deseja iniciar? Confirme com: s OU n"
 echo "=============================================================================================================================="
 read confirm
 
@@ -20,7 +22,7 @@ ls
 
 sleep 1
 
-echo "$purple[OnHome]:$purple Ok, o programa abrirá em instantes! :)"
+echo "$purple[OnHome]:$white Ok, o programa abrirá em instantes! :)"
 
 sleep 1
 
@@ -28,15 +30,15 @@ java -jar api-onhome-version-final.jar
 
 else
     echo ""
-    echo "$(tput setaf 10)[OnHome]: Inicialização cancelada."
+    echo "$purple[OnHome]:$red Inicialização cancelada."
     sleep 1
     echo ""
 
-    echo "$(tput setaf 10)[OnHome]: Para outra tentativa de instalação reinicie o programa."
+    echo "$purple[OnHome]:$white Para outra tentativa de instalação reinicie o programa."
     sleep 1
     echo ""
 	echo "=============================================================================================================================="	
-    echo "$purple[OnHome]: Encerrando instalação..."
+    echo "$purple[OnHome]:$white Encerrando instalação..."
 	echo "=============================================================================================================================="
     exit 0
 
@@ -60,7 +62,7 @@ instalando_onhome() {
     
 if [ "$( ls -l |  grep $jar_onhome | wc -l)" -eq "0" ]; then
 echo "=============================================================================================================================="
-    echo "$purple[OnHome]:$purple Baixando o programa OnHome..."
+    echo "$purple[OnHome]:$white Baixando o programa OnHome..."
 echo "=============================================================================================================================="
         wget $baixar_jar
 
@@ -77,7 +79,7 @@ else
     if [ $? -eq 1 ]; then 
 
 	echo "=============================================================================================================================="
-    echo "$purple[OnHome]: Erro ao baixar o programa. Por favor, tente novamente! "
+    echo "$purple[OnHome]:$red Erro ao baixar o programa. Por favor, tente novamente! "
 	echo "=============================================================================================================================="
 
     sleep 1 
@@ -98,7 +100,7 @@ criar_container() {
 
 	if [ "$(sudo docker ps -aqf 'name=OnHome' | wc -l)" -eq "0" ]; then
 	echo "=============================================================================================================================="
-		echo -e "$purple[OnHome]:$purple Executando o docker com a imagem da aplicação OnHome"
+		echo -e "$purple[OnHome]:$white Executando o docker com a imagem da aplicação OnHome"
 	echo "=============================================================================================================================="
 		sudo docker run -d -p 3306:3306 --name OnHome -e "MYSQL_ROOT_PASSWORD=2ads@grupo10" onhome-mysql
 	
@@ -133,7 +135,7 @@ COPY docker-script-bd.sql /docker-entrypoint-initdb.d/
 
 	if [ "$(sudo docker images | grep 'onhome' | wc -l)" -eq "0" ]; then
 	echo "=============================================================================================================================="
-		echo "$(tput setaf 4)[OnHome]:$(tput setaf 7) Gerando imagem personalizada com base nos dados da Dockerfile"
+		echo "$purple[OnHome]:$white Gerando imagem personalizada com base nos dados da Dockerfile"
 	echo "=============================================================================================================================="
 		sudo docker build . --tag onhome-mysql
 
@@ -148,7 +150,7 @@ instalar_sql_docker() {
 
 	if [ "$(sudo docker images | grep 'mysql' | wc -l)" -eq "0" ]; then
 	echo "=============================================================================================================================="
-	echo -e "$purple[OnHome]:$purple Baixando a imagem docker do MySQL"
+	echo -e "$purple[OnHome]:$white Baixando a imagem docker do MySQL"
 	echo "=============================================================================================================================="
 		sudo docker pull mysql:5.7 
 		gerar_imagem_personalizada
@@ -182,7 +184,7 @@ if [ "$(sudo service docker status | head -2 | tail -1 | awk '{print $4}' | sed 
 # Função responsável pela instalação do docker
 instalar_docker() {
 	echo "=============================================================================================================================="
-		echo -e "$purple[OnHome]:$purple Vamos fazer uma atualização das dependências do seu computador, por favor aguarde."
+		echo -e "$purple[OnHome]:$white Vamos fazer uma atualização das dependências do seu computador, por favor aguarde."
 	echo "=============================================================================================================================="
 
 
@@ -191,7 +193,7 @@ instalar_docker() {
 		sudo apt update -y  1> /dev/null 2> /dev/stdout 
 	echo "=============================================================================================================================="
 
-        echo -e "$purple[OnHome]:$purple Dependências instaladas com sucesso, prosseguindo para a instalação do Docker."
+        echo -e "$purple[OnHome]:$white Dependências instaladas com sucesso, prosseguindo para a instalação do Docker."
 		sudo apt install docker.io -y 1> /dev/null 2> /dev/stdout
 		ligar_docker
 
@@ -208,15 +210,15 @@ instalar_docker() {
 
 verificar_java() {
 	echo ""
-	echo "=============================================================================================================================="
-	echo "=============================================================================================================================="
-	echo "=============================================================================================================================="
-	echo "$purple======================================= BEM VINDO AO ASSISTENTE DE INSTALAÇÃO DA ONHOME!======================================="
-	echo "=============================================================================================================================="
-	echo "=============================================================================================================================="
-	echo "=============================================================================================================================="
 	echo ""
-	echo  "$purple[Onhome]:$purple Estamos realizando uma verificação de requisitos obrigatórios para o funcionamento correto do sistema, aguarde."
+	echo ""
+	echo ""
+	echo "$purple BEM VINDO AO ASSISTENTE DE INSTALAÇÃO DA ONHOME!"
+	echo ""
+	echo ""
+	echo ""
+	echo ""
+	echo  "$purple[Onhome]:$white Estamos realizando uma verificação de requisitos obrigatórios para o funcionamento correto do sistema, aguarde."
 
 
 sleep 3
@@ -224,17 +226,17 @@ sleep 3
 
 if [ "$(dpkg --get-selections | grep 'default-jre' | wc -l)" -eq "0" ];
 	then
-		echo "$purple[Onhome]:$(tput setaf 7) : Você não tem a versão do Java necessária no seu computador. Instalação necessária para execução do programa. "
+		echo "$purple[Onhome]:$white Você não tem a versão do Java necessária no seu computador. Instalação necessária para execução do programa. "
 	
-					echo "$purple[Onhome]:$(tput setaf 7) Realizando instalação do Java(11.0.10 LTS)..."
+					echo "$purple[Onhome]:$white Realizando instalação do Java(11.0.10 LTS)..."
 					sudo apt install default-jre ; apt install openjdk-11-jre-headless; y
 					clear
 	echo "=============================================================================================================================="
-					echo "$purple[Onhome]:$(tput setaf 7) O Java foi instalado com sucesso!"
+					echo "$purple[Onhome]:$white O Java foi instalado com sucesso!"
 	echo "=============================================================================================================================="
                     instalar_docker
 else
-		echo "$purple[Onhome]:$purple : Você já tem a versão necessária do Java no seu computador, prosseguindo com a instalação..."
+		echo "$purple[Onhome]:$white Você já tem a versão necessária do Java no seu computador, prosseguindo com a instalação..."
          instalar_docker 
                    
                     
